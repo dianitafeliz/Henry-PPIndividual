@@ -8,8 +8,13 @@ import seaborn as sns
 from fastapi import FastAPI
 app = FastAPI()
 
-df_movies = pd.read_pickle(r'C:\HENRY\PROYECTOS HENRY 11\Primer Proyecto Individual\Datasets\df_movies.pkl')
-df_credits = pd.read_parquet(r'C:\HENRY\PROYECTOS HENRY 11\Primer Proyecto Individual\Datasets\df_credits1.parquet')
+#df_movies = pd.read_pickle(r'C:\HENRY\PROYECTOS HENRY 11\Primer Proyecto Individual\Datasets\df_movies.pkl')
+#df_credits = pd.read_parquet(r'C:\HENRY\PROYECTOS HENRY 11\Primer Proyecto Individual\Datasets\df_credits1.parquet')
+
+# Rutas Render
+df_movies = pd.read_pickle(r'Datasets\df_movies.pkl')
+df_credits = pd.read_parquet(r'Datasets\df_credits1.parquet')
+
 df_movies['release_date'] = pd.to_datetime(df_movies['release_date'], errors='coerce')
 
 #---------------------------------FUNCIONES-------------------------------------------------
