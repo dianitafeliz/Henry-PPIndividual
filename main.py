@@ -7,13 +7,21 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from fastapi import FastAPI
 app = FastAPI()
+import os
 
 #df_movies = pd.read_pickle(r'C:\HENRY\PROYECTOS HENRY 11\Primer Proyecto Individual\Datasets\df_movies.pkl')
 #df_credits = pd.read_parquet(r'C:\HENRY\PROYECTOS HENRY 11\Primer Proyecto Individual\Datasets\df_credits1.parquet')
 
 # Rutas Render
-df_movies = pd.read_pickle(r'Datasets\df_movies.pkl')
-df_credits = pd.read_parquet(r'Datasets\df_credits1.parquet')
+current_directory = os.path.dirname(__file__)
+
+# Construir las rutas completas a los archivos
+df_movies_path = os.path.join(current_directory, 'Datasets', 'df_movies.pkl')
+df_credits_path = os.path.join(current_directory, 'Datasets', 'df_credits1.parquet')
+
+# Cargar los archivos
+df_movies = pd.read_pickle(df_movies_path)
+df_credits = pd.read_parquet(df_credits_path)
 
 df_movies['release_date'] = pd.to_datetime(df_movies['release_date'], errors='coerce')
 
