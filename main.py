@@ -10,23 +10,24 @@ app = FastAPI()
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-df_movies = pd.read_pickle(r'C:\HENRY\PROYECTOS HENRY 11\Primer Proyecto Individual\Datasets\df_movies.pkl')
-df_credits = pd.read_parquet(r'C:\HENRY\PROYECTOS HENRY 11\Primer Proyecto Individual\Datasets\df_credits1.parquet')
+#df_movies = pd.read_pickle(r'C:\HENRY\PROYECTOS HENRY 11\Primer Proyecto Individual\Datasets\df_movies.pkl')
+#df_credits = pd.read_parquet(r'C:\HENRY\PROYECTOS HENRY 11\Primer Proyecto Individual\Datasets\df_credits1.parquet')
+
 #df_credits = pd.read_json(r'C:\HENRY\PROYECTOS HENRY 11\Movies\credits1.json')
 
 # Rutas Render------------------------------------------------------------------------------------
-#current_directory = os.path.dirname(__file__)
+current_directory = os.path.dirname(__file__)
 
 # Construir las rutas completas a los archivos
-#df_movies_path = os.path.join(current_directory, 'Datasets', 'df_movies.pkl')
-#df_credits_path = os.path.join(current_directory, 'Datasets', 'df_credits1.parquet')
+df_movies_path = os.path.join(current_directory, 'Datasets', 'df_movies.pkl')
+df_credits_path = os.path.join(current_directory, 'Datasets', 'df_credits1.parquet')
 #-------------------------------------------------------------------------------------------------
 
 # Cargar los archivos para Render
-#df_movies = pd.read_pickle(df_movies_path)
-#df_credits = pd.read_parquet(df_credits_path)
+df_movies = pd.read_pickle(df_movies_path)
+df_credits = pd.read_parquet(df_credits_path)
 
-#df_movies['release_date'] = pd.to_datetime(df_movies['release_date'], errors='coerce')
+df_movies['release_date'] = pd.to_datetime(df_movies['release_date'], errors='coerce')
 
 
 #---------------------------------FUNCIONES-------------------------------------------------
