@@ -9,6 +9,7 @@ from fastapi import FastAPI
 app = FastAPI()
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+import os
 
 #df_movies = pd.read_pickle(r'C:\HENRY\PROYECTOS HENRY 11\Primer Proyecto Individual\Datasets\df_movies.pkl')
 #df_credits = pd.read_parquet(r'C:\HENRY\PROYECTOS HENRY 11\Primer Proyecto Individual\Datasets\df_credits1.parquet')
@@ -215,4 +216,4 @@ def recommend_movies(movie_title: str, num_recommendations: int = 5):
 
 # Prueba la función
 recomendaciones = recommend_movies('From Dusk Till Dawn')
-print(recomendaciones)
+#print(recomendaciones)
