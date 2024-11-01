@@ -22,12 +22,12 @@ current_directory = os.path.dirname(__file__)
 
 # Construir las rutas completas a los archivos
 df_movies_path = os.path.join(current_directory, 'Datasets', 'df_movies.pkl')
-df_credits_path = os.path.join(current_directory, 'Datasets', 'newCredits.pkl')
+df_credits_path = os.path.join(current_directory, 'Datasets', 'newCredits.parquet')
 #-------------------------------------------------------------------------------------------------
 
 # Cargar los archivos para Render
 df_movies = pd.read_pickle(df_movies_path)
-df_credits_pkl = pd.read_pickle(df_credits_path)
+df_credits_pkl = pd.read_parquet(df_credits_path)
 
 df_movies['release_date'] = pd.to_datetime(df_movies['release_date'], errors='coerce')
 
@@ -119,7 +119,7 @@ def votos_titulo(titulo_de_la_filmación):
             return f"La película {coincidencias.iloc[0]['title']} fue estrenada en el año {int(coincidencias.iloc[0]['release_year'])}. La misma cuenta con un total de {votos} valoraciones, con un promedio de {promedio}"
     return "No se encontraron coincidencias o la película no tiene suficientes valoraciones."
 
-#print(votos_titulo('Get Shorty'))
+print(votos_titulo('Get Shorty'))
 
 #--------------------------------------------------------------------------------------------------------------------------
 
