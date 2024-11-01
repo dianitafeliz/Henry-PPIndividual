@@ -6,6 +6,7 @@ import json
 import matplotlib.pyplot as plt
 import seaborn as sns
 from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 app = FastAPI()
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
@@ -14,19 +15,19 @@ import os
 #df_movies = pd.read_pickle(r'C:\HENRY\PROYECTOS HENRY 11\Primer Proyecto Individual\Datasets\df_movies.pkl')
 #df_credits = pd.read_parquet(r'C:\HENRY\PROYECTOS HENRY 11\Primer Proyecto Individual\Datasets\df_credits1.parquet')
 
-#df_credits = pd.read_json(r'C:\HENRY\PROYECTOS HENRY 11\Movies\credits1.json')
+#df_credits_pkl = pd.read_pickle(r'C:\HENRY\PROYECTOS HENRY 11\Primer Proyecto Individual\Datasets\newCredits.pkl')
 
 # Rutas Render------------------------------------------------------------------------------------
 current_directory = os.path.dirname(__file__)
 
 # Construir las rutas completas a los archivos
 df_movies_path = os.path.join(current_directory, 'Datasets', 'df_movies.pkl')
-df_credits_path = os.path.join(current_directory, 'Datasets', 'df_credits1.parquet')
+df_credits_path = os.path.join(current_directory, 'Datasets', 'newCredits.pkl')
 #-------------------------------------------------------------------------------------------------
 
 # Cargar los archivos para Render
 df_movies = pd.read_pickle(df_movies_path)
-df_credits = pd.read_parquet(df_credits_path)
+df_credits_pkl = pd.read_pickle(df_credits_path)
 
 df_movies['release_date'] = pd.to_datetime(df_movies['release_date'], errors='coerce')
 
@@ -44,8 +45,7 @@ def cantidad_filmaciones_mes( Mes: str ):
          "octubre":10, "noviembre":11, "diciembre":12
     }
     if(Mes not in meses):#Si el mes seleccionado no está entre las opciones
-        raise HTTPException(status_code=400, detail="Ingrese un mes válido en español")
-              
+        raise HTTPException(status_code=400, detail="Ingrese un mes válido en español")                    
         
     peliculas_mes = (df_movies[df_movies['release_date'].dt.month==meses[Mes]])
     return f"{len(peliculas_mes)} películas fueron estrenadas en el mes de {Mes}"
@@ -128,14 +128,11 @@ def votos_titulo(titulo_de_la_filmación):
 # de películas que en las que ha participado y el promedio de retorno
 
 @app.get("/ActorRetorno")
-def get_actor(nombre_actor: str):
+def get_actor(nombre_actor):
     nombre_actor = nombre_actor.lower()
 
-    # Verificar el formato de la columna 'Cast'
-    print("Formato de 'Cast' en las primeras filas:", df_credits['Cast'].head(2))
-   
     # Filtrar las filas donde el nombre coincida con el nombre_actor y manejar None
-    coincidencias = df_credits[df_credits['Cast'].apply(lambda Cast: Cast is not None and any(member['name'].lower() == nombre_actor for member in Cast))]
+    coincidencias = df_credits_pkl[df_credits_pkl['Cast'].apply(lambda Cast: Cast is not None and any(member['name'].lower() == nombre_actor for member in Cast))]
     
     # Verificar que haya coincidencias
     if coincidencias.empty:
@@ -161,16 +158,49 @@ def get_actor(nombre_actor: str):
     return f"El actor {nombre_actor} ha participado de {cant_films} cantidad de filmaciones, el mismo ha conseguido un retorno de {total_return} con un promedio de {avg_return} por filmación"
     
 # Prueba la función
-#print(get_actor('Johnny Depp'))
+print(get_actor('Johnny Depp'))
 #print(get_actor('Alfred Molina'))
 
 #--------------------------------------------------------------------------------------------------------------------------
+#Función 6
+@app.get("/DirectorRetorno")
+def get_director(nombre_director):
+    nombre_director = nombre_director.lower()
 
+    # Asegurarse de que los valores en la columna 'directors' son cadenas
+    df_credits_pkl['directors'] = df_credits_pkl['directors'].apply(lambda x: ', '.join(x).lower() if isinstance(x, list) else x.lower())
 
+    # Filtrar las filas donde el nombre del director coincide con nombre_director
+    coincidencias = df_credits_pkl[df_credits_pkl['directors'].str.contains(nombre_director)]
+
+    # Verificar que haya coincidencias
+    if coincidencias.empty:
+        return {"director": nombre_director, "cantidad_filmes": 0, "total_return": 0.0, "avg_return": 0.0}
+
+    # Comparación de películas
+    peliculas = df_movies[df_movies['id'].isin(coincidencias['id'])]
+
+    # Manejar los valores NaN en la columna 'return' antes de sumar
+    peliculas.loc[:, 'return'] = peliculas['return'].fillna(0)
+
+    # Calcular el nivel de retorno
+    total_return = round(peliculas['return'].sum(), 2)
+
+    # Devolver los resultados como un diccionario para asegurar que sean serializables a JSON
+    return {
+        "director": nombre_director,
+        "cantidad_filmes": len(peliculas),
+        "total_return": total_return,
+        "avg_return": total_return / len(peliculas) if len(peliculas) > 0 else 0.0,
+        "peliculas": peliculas[['title', 'release_year', 'revenue', 'budget', 'return']].to_dict(orient='records')
+    }
+
+# Prueba la función
+#print(get_director('Gary Trousdale'))
 
 #--------------------------------------------------------------------------------------------------------------------------
 # Similitud del coseno usando titulo y genero
-#Función 6
+#Función 7
 @app.get("/Recomendadas")
 def recommend_movies(movie_title: str, num_recommendations: int = 5):
     title_col = 'title'
@@ -215,5 +245,5 @@ def recommend_movies(movie_title: str, num_recommendations: int = 5):
     return recommendations.to_dict(orient='records')
 
 # Prueba la función
-recomendaciones = recommend_movies('From Dusk Till Dawn')
+#recomendaciones = recommend_movies('From Dusk Till Dawn')
 #print(recomendaciones)
