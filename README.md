@@ -11,7 +11,7 @@ Este proyecto tiene como objetivo analizar los datos de una plataforma de stream
 6. Resultados y conclusiones. <br>
 
 <h4>1. Instalación y Requisitos:</h4> 
-<h3>Requisitos:</h3> 
+<h5>Requisitos:</h5> 
 Python 3.7 o superior <br>
 pandas <br>
 numpy <br>
@@ -22,7 +22,7 @@ fastapi <br>
 seaborn <br>
 os <br>
 
-<h3>Pasos de instalación:</h3> 
+<h5>Pasos de instalación:</h5> 
 Entorno Virtual: <br>
 1. Crear el entorno virtual: python -m venv ppindividual <br>
 2. Activar entorno virtual: ppindividual\Scripts\activate <br>
