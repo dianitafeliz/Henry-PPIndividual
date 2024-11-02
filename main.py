@@ -22,12 +22,12 @@ current_directory = os.path.dirname(__file__)
 
 # Construir las rutas completas a los archivos
 df_movies_path = os.path.join(current_directory, 'Datasets', 'df_movies.pkl')
-df_credits_path = os.path.join(current_directory, 'Datasets', 'newCredits.parquet')
+df_credits_path = os.path.join(current_directory, 'Datasets', 'newCredits1.pkl')
 #-------------------------------------------------------------------------------------------------
 
 # Cargar los archivos para Render
 df_movies = pd.read_pickle(df_movies_path)
-df_credits = pd.read_parquet(df_credits_path)
+df_credits = pd.read_pickle(df_credits_path)
 
 df_movies['release_date'] = pd.to_datetime(df_movies['release_date'], errors='coerce')
 
@@ -127,12 +127,14 @@ def votos_titulo(titulo_de_la_filmación):
 # debiendo devolver el éxito del mismo medido a través del retorno. Además, la cantidad 
 # de películas que en las que ha participado y el promedio de retorno
 
-@app.get("/ActorRetorno")
-def get_actor(nombre_actor):
-    nombre_actor = nombre_actor.lower()
 
+@app.get("/ActorRetorno")
+def get_actor(nombre_actor: str):
+    nombre_actor = nombre_actor.lower().strip()
+    
     # Filtrar las filas donde el nombre coincida con el nombre_actor y manejar None
     coincidencias = df_credits[df_credits['Cast'].apply(lambda Cast: Cast is not None and any(member['name'].lower() == nombre_actor for member in Cast))]
+    print(coincidencias)
     
     # Verificar que haya coincidencias
     if coincidencias.empty:
@@ -155,21 +157,20 @@ def get_actor(nombre_actor):
     # Calcular el retorno total y el promedio de retorno
     total_return = float(round(actor_movies['return'].sum(), 2))
     avg_return = float(round(actor_movies['popularity'].sum() / cant_films if cant_films > 0 else 0.0, 2))
-    return f"El actor {nombre_actor} ha participado de {cant_films} cantidad de filmaciones, el mismo ha conseguido un retorno de {total_return} con un promedio de {avg_return} por filmación"
     
+    return {"actor": nombre_actor, "cantidad_filmes": cant_films, "total_return": total_return, "avg_return": avg_return}
+
+
 # Prueba la función
 print(get_actor('Johnny Depp'))
 #print(get_actor('Alfred Molina'))
 
+
+
+
 #--------------------------------------------------------------------------------------------------------------------------
 #Función 6
 
-try:
-    df_credits = pd.read_parquet(df_credits_path)
-except FileNotFoundError as e:
-    print(f"Error: {e}")
-    raise SystemExit(e)
-@app.get("/DirectorRetorno")
 def get_director(nombre_director):
     nombre_director = nombre_director.lower()
 
