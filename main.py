@@ -27,7 +27,7 @@ df_credits_path = os.path.join(current_directory, 'Datasets', 'newCredits.parque
 
 # Cargar los archivos para Render
 df_movies = pd.read_pickle(df_movies_path)
-df_credits_pkl = pd.read_parquet(df_credits_path)
+df_credits = pd.read_parquet(df_credits_path)
 
 df_movies['release_date'] = pd.to_datetime(df_movies['release_date'], errors='coerce')
 
@@ -119,7 +119,7 @@ def votos_titulo(titulo_de_la_filmación):
             return f"La película {coincidencias.iloc[0]['title']} fue estrenada en el año {int(coincidencias.iloc[0]['release_year'])}. La misma cuenta con un total de {votos} valoraciones, con un promedio de {promedio}"
     return "No se encontraron coincidencias o la película no tiene suficientes valoraciones."
 
-print(votos_titulo('Get Shorty'))
+#print(votos_titulo('Get Shorty'))
 
 #--------------------------------------------------------------------------------------------------------------------------
 
@@ -132,7 +132,7 @@ def get_actor(nombre_actor):
     nombre_actor = nombre_actor.lower()
 
     # Filtrar las filas donde el nombre coincida con el nombre_actor y manejar None
-    coincidencias = df_credits_pkl[df_credits_pkl['Cast'].apply(lambda Cast: Cast is not None and any(member['name'].lower() == nombre_actor for member in Cast))]
+    coincidencias = df_credits[df_credits['Cast'].apply(lambda Cast: Cast is not None and any(member['name'].lower() == nombre_actor for member in Cast))]
     
     # Verificar que haya coincidencias
     if coincidencias.empty:
@@ -163,30 +163,44 @@ print(get_actor('Johnny Depp'))
 
 #--------------------------------------------------------------------------------------------------------------------------
 #Función 6
+
+try:
+    df_credits = pd.read_parquet(df_credits_path)
+except FileNotFoundError as e:
+    print(f"Error: {e}")
+    raise SystemExit(e)
 @app.get("/DirectorRetorno")
 def get_director(nombre_director):
     nombre_director = nombre_director.lower()
 
-    # Asegurarse de que los valores en la columna 'directors' son cadenas
-    df_credits_pkl['directors'] = df_credits_pkl['directors'].apply(lambda x: ', '.join(x).lower() if isinstance(x, list) else x.lower())
+    # Asegurarse de que los valores en la columna 'directors' son cadenas y manejamos adecuadamente listas y arreglos
+    def process_directors(directors):
+        if isinstance(directors, list):
+            return ', '.join(d.lower() for d in directors)
+        elif isinstance(directors, np.ndarray):
+            return ', '.join(directors).lower()
+        else:
+            return directors.lower()
+
+    df_credits['directors'] = df_credits['directors'].apply(process_directors)
 
     # Filtrar las filas donde el nombre del director coincide con nombre_director
-    coincidencias = df_credits_pkl[df_credits_pkl['directors'].str.contains(nombre_director)]
+    coincidencias = df_credits[df_credits['directors'].str.contains(nombre_director)]
 
     # Verificar que haya coincidencias
     if coincidencias.empty:
         return {"director": nombre_director, "cantidad_filmes": 0, "total_return": 0.0, "avg_return": 0.0}
 
     # Comparación de películas
-    peliculas = df_movies[df_movies['id'].isin(coincidencias['id'])]
+    peliculas = df_movies[df_movies['id'].isin(coincidencias['id'])].copy()
 
     # Manejar los valores NaN en la columna 'return' antes de sumar
-    peliculas.loc[:, 'return'] = peliculas['return'].fillna(0)
+    peliculas['return'] = peliculas['return'].replace([np.inf, -np.inf], np.nan)
+    peliculas['return'] = peliculas['return'].fillna(0)
 
     # Calcular el nivel de retorno
     total_return = round(peliculas['return'].sum(), 2)
 
-    # Devolver los resultados como un diccionario para asegurar que sean serializables a JSON
     return {
         "director": nombre_director,
         "cantidad_filmes": len(peliculas),
