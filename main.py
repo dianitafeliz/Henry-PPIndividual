@@ -134,11 +134,11 @@ def get_actor(nombre_actor: str):
     
     # Filtrar las filas donde el nombre coincida con el nombre_actor y manejar None
     coincidencias = df_credits[df_credits['Cast'].apply(lambda Cast: Cast is not None and any(member['name'].lower() == nombre_actor for member in Cast))]
-    print(coincidencias)
+    #print(coincidencias)
     
     # Verificar que haya coincidencias
     if coincidencias.empty:
-        return {"actor": nombre_actor, "cantidad_filmes": 0, "total_return": 0.9, "avg_return": 0.9}
+        return {"actor": nombre_actor, "cantidad_filmes": 0, "total_return": 0.1, "avg_return": 0.1}
         
     # Obtener los IDs únicos y contar la cantidad de películas
     cant_films = len(coincidencias['id'].unique())
