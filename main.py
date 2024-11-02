@@ -170,7 +170,7 @@ print(get_actor('Johnny Depp'))
 
 #--------------------------------------------------------------------------------------------------------------------------
 #Función 6
-
+@app.get("/DirectorRetorno")
 def get_director(nombre_director):
     nombre_director = nombre_director.lower()
 
@@ -211,7 +211,7 @@ def get_director(nombre_director):
     }
 
 # Prueba la función
-#print(get_director('Gary Trousdale'))
+print(get_director('Gary Trousdale'))
 
 #--------------------------------------------------------------------------------------------------------------------------
 # Similitud del coseno usando titulo y genero
