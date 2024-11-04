@@ -9,7 +9,8 @@ Este proyecto tiene como objetivo analizar los datos de una plataforma de stream
 3. Transformación de datos <br>
 4. Datos y fuentes <br>
 5. Metodología <br>
-6. Resultados y conclusiones. <br>
+6. Resultados y conclusiones <br>
+7. Datos de Prueba <br>
 
 <h4>1. Instalación y Requisitos:</h4> 
 <h5>Requisitos:</h5> 
@@ -72,3 +73,38 @@ cosine_similarity <br>
 4. Se crearon funciones con el fin de analizar diferentes comportamientos pertinentes para la toma de decisiones <br>
 5. Se creó un sistema de recomendación de peliculas según el titulo y generos. <br>
 6. Se logra desplegar la api en render. <br>
+
+<h4>7. Datos de Prueba </h4> <br>
+title:
+12 Angry Men
+The Seventh Seal
+Sense and Sensibility
+Evil Dead II
+Avatar
+The Avengers
+Fight Club
+The Hunger Games
+Get Shorty
+
+Actor:
+Johnny Depp
+Alfred Molina
+Bob Holt
+Frank Sinatra
+Robert De Niro
+Angelina Jolie
+
+Director: 
+Mel Brooks
+Gary Trousdale
+Steven Spielberg
+James Cameron
+Tim Burton
+
+Recomendaciones:
+Frankenweenie
+Avatar
+Minions
+Casino
+Babe
+Batman
