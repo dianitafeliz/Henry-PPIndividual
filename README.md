@@ -75,36 +75,36 @@ cosine_similarity <br>
 6. Se logra desplegar la api en render. <br>
 
 <h4>7. Datos de Prueba </h4> <br>
-title:
-12 Angry Men
-The Seventh Seal
-Sense and Sensibility
-Evil Dead II
-Avatar
-The Avengers
-Fight Club
-The Hunger Games
-Get Shorty
+<h5>title:</h5><br>
+12 Angry Men<br>
+The Seventh Seal<br>
+Sense and Sensibility<br>
+Evil Dead II<br>
+Avatar<br>
+The Avengers<br>
+Fight Club<br>
+The Hunger Games<br>
+Get Shorty<br>
 
-Actor:
-Johnny Depp
-Alfred Molina
-Bob Holt
-Frank Sinatra
-Robert De Niro
-Angelina Jolie
+<h5>Actor:</h5><br>
+Johnny Depp <br>
+Alfred Molina <br>
+Bob Holt <br>
+Frank Sinatra <br>
+Robert De Niro <br>
+Angelina Jolie <br>
 
-Director: 
-Mel Brooks
-Gary Trousdale
-Steven Spielberg
-James Cameron
-Tim Burton
+<h5>Director: </h5><br>
+Mel Brooks <br>
+Gary Trousdale <br>
+Steven Spielberg <br>
+James Cameron <br>
+Tim Burton <br>
 
-Recomendaciones:
-Frankenweenie
-Avatar
-Minions
-Casino
-Babe
-Batman
+<h5>Recomendaciones: </h5><br>
+Frankenweenie <br>
+Avatar <br>
+Minions <br>
+Casino <br>
+Babe <br>
+Batman <br>
