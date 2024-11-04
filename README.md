@@ -59,7 +59,7 @@ Datasets Organizados Json: https://drive.google.com/drive/folders/1hFkjdaWb-ZDyt
 Datasets usados para despliegue: https://github.com/dianitafeliz/Henry-PPIndividual/tree/main/Datasets <br>
 
 <h4>5. Metodología</h4> <br>
-Para crear el sistema de recomendaciones, hice uso de la similitid del coseno, la cual es una métrica utilizada para medir la similitud entre dos vectores en un espacio multidimensional, es decir, se utiliza para comparar la similitud entre elementos, que para este caso se hizo basado en titulos y generos de las  <br>
+Para crear el sistema de recomendaciones, hice uso de la similitud del coseno, la cual es una métrica utilizada para medir la similitud entre dos vectores en un espacio multidimensional, es decir, se utiliza para comparar la similitud entre elementos, que para este caso se hizo basado en titulos y generos de las  <br>
 Libreria usada: <br>
 scikit-learn <br>
 funciones:  <br>
@@ -74,8 +74,8 @@ cosine_similarity <br>
 5. Se creó un sistema de recomendación de peliculas según el titulo y generos. <br>
 6. Se logra desplegar la api en render. <br>
 
-<h4>7. Datos de Prueba </h4> <br>
-<h5>title:</h5><br>
+<h4>7. Datos de Prueba </h4> 
+<h5>Titulo:</h5>
 12 Angry Men<br>
 The Seventh Seal<br>
 Sense and Sensibility<br>
@@ -94,14 +94,14 @@ Frank Sinatra <br>
 Robert De Niro <br>
 Angelina Jolie <br>
 
-<h5>Director: </h5><br>
+<h5>Director: </h5>
 Mel Brooks <br>
 Gary Trousdale <br>
 Steven Spielberg <br>
 James Cameron <br>
 Tim Burton <br>
 
-<h5>Recomendaciones: </h5><br>
+<h5>Recomendaciones: </h5>
 Frankenweenie <br>
 Avatar <br>
 Minions <br>
