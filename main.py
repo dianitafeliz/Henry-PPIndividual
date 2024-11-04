@@ -95,7 +95,7 @@ def score_titulo(titulo_de_la_filmación):
         return "No se encontró la filmación"
 
 # Ejemplo de uso
-#resultado = score_titulo("Sense and Sensibility")
+#resultado = score_titulo("Evil Dead II")
 #print(resultado)
 
 #--------------------------------------------------------------------------------------------------------------------------
@@ -162,7 +162,7 @@ def get_actor(nombre_actor: str):
 
 
 # Prueba la función
-print(get_actor('Johnny Depp'))
+#print(get_actor('Johnny Depp'))
 #print(get_actor('Alfred Molina'))
 
 
@@ -211,7 +211,7 @@ def get_director(nombre_director):
     }
 
 # Prueba la función
-print(get_director('Gary Trousdale'))
+#print(get_director('Tim Burton'))
 
 #--------------------------------------------------------------------------------------------------------------------------
 # Similitud del coseno usando titulo y genero
@@ -260,5 +260,5 @@ def recommend_movies(movie_title: str, num_recommendations: int = 5):
     return recommendations.to_dict(orient='records')
 
 # Prueba la función
-#recomendaciones = recommend_movies('From Dusk Till Dawn')
-#print(recomendaciones)
+recomendaciones = recommend_movies('Batman')
+print(recomendaciones)
